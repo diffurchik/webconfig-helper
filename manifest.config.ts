@@ -11,10 +11,10 @@ export default defineManifest({
 
   // === Which websites this runs on ===
   host_permissions: [
-    import.meta.env.VITE_HOST_PERMISSION
+    process.env.VITE_HOST_PERMISSION || "*://*/*"
   ],
 
-  // === Content scripts (run inside the matched pages) ===
+  // ... rest of the config stays the same
   content_scripts: [
     {
       js: ["src/main.ts"],
@@ -23,7 +23,6 @@ export default defineManifest({
     }
   ],
 
-  // === Files you want to access from content scripts ===
   web_accessible_resources: [
     {
       resources: ["public/injected.js"],
@@ -31,6 +30,5 @@ export default defineManifest({
     }
   ],
 
-  // === Optional options page ===
   options_page: "options.html"
 });

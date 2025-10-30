@@ -16,11 +16,16 @@ import {
   request,
 } from "./utilities";
 
-function injectPageHelper() {
-  const s = document.createElement("script");
-  s.src = chrome.runtime.getURL("injected.js");
-  (document.head || document.documentElement).appendChild(s);
-  s.onload = () => s.remove();
+function injectPageHelper(): Promise<void> {
+  return new Promise((resolve) => {
+    const s = document.createElement("script");
+    s.src = chrome.runtime.getURL("injected.js");
+    (document.head || document.documentElement).appendChild(s);
+    s.onload = () => {
+      s.remove();
+      resolve();
+    };
+  });
 }
 
 function createCustomEndpointSection(cfg: URLConfigType): HTMLElement {
@@ -88,20 +93,18 @@ function wireOpenClose(root: HTMLElement, btn: HTMLElement, menu: HTMLElement) {
 }
 
 async function main() {
-  injectPageHelper();
+  await injectPageHelper();
   const cfg = await getCfg();
 
   const root = createRoot();
   const btn = createGearButton();
   const menu = createMenuContainer();
 
-  // TODO
-  // const currentValue = await getCurrentEndpoint(cfg.key); //
-  // const currentDisplay = createCurrentEndpointDisplay(currentValue);
-  // menu.appendChild(currentDisplay);
+  addSectionTitle(menu, `Current endpoint`);
+  const currentValue = await getCurrentEndpoint(cfg.key);
+  const currentDisplay = createCurrentEndpointDisplay(currentValue);
+  menu.appendChild(currentDisplay);
 
-  // addSectionTitle(menu, `Current endpoint`);
-  // menu.appendChild(await createCurrentEndpointDisplay())
   addSectionTitle(menu, `Set ${cfg.key}`);
   menu.appendChild(createEndpointsList(cfg));
   addDivider(menu);

@@ -37,16 +37,16 @@ export function addSectionTitle(menu: HTMLElement, text: string) {
   const title = document.createElement("div");
   title.textContent = text;
   title.style.cssText =
-    "font-size:12px;opacity:.7;margin:4px 8px 6px;text-transform:uppercase;letter-spacing:.02em;";
+    "font-size:12px;opacity:.7;margin:8px 8px 6px;text-transform:uppercase;letter-spacing:.02em;";
   menu.appendChild(title);
 }
 
 export function createCurrentEndpointDisplay(currentValue: string): HTMLElement {
     const box = document.createElement("div");
-    box.style.cssText = "font-size:12px;padding:6px 10px;margin:4px 4px 8px;border-radius:6px;background:#1b1b1b;word-break:break-all;";
+    box.style.cssText = "font-size:12px;padding:10px 10px;margin:4px 4px 8px;border-radius:6px;background:#1b1b1b;word-break:break-all;";
     box.textContent = currentValue
-      ? `Current: ${currentValue}`
-      : "Current: (none)";
+      ? `${currentValue}`
+      : "(none)";
     return box;
   }
   
