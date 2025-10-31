@@ -1,5 +1,11 @@
 import { defineManifest } from "@crxjs/vite-plugin";
 
+const hostEnv = (process.env.VITE_HOST_PERMISSION || "*://*/*")
+  .split(/[, \n]+/)
+  .filter(Boolean);
+
+  console.log("host: ", hostEnv)
+
 export default defineManifest({
   manifest_version: 3,
   name: "WebConfig Helper",
@@ -10,23 +16,21 @@ export default defineManifest({
   permissions: ["storage", "clipboardWrite", "scripting"],
 
   // === Which websites this runs on ===
-  host_permissions: [
-    process.env.VITE_HOST_PERMISSION || "*://*/*"
-  ],
+  host_permissions: hostEnv,
 
   // ... rest of the config stays the same
   content_scripts: [
     {
       js: ["src/main.ts"],
       run_at: "document_idle",
-      matches: ["<all_urls>"]
+      matches: hostEnv,
     }
   ],
 
   web_accessible_resources: [
     {
-      resources: ["public/injected.js"],
-      matches: ["<all_urls>"]
+      resources: ["injected.js"],
+      matches: hostEnv,
     }
   ],
 

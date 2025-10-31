@@ -7,6 +7,8 @@ import {
   createRoot,
   createCurrentEndpointDisplay,
   toast,
+  settingsButton,
+  settingsMenu,
 } from "./components";
 import { URLConfigType } from "./data";
 import { getCfg, setCfg } from "./helper";
@@ -99,6 +101,8 @@ async function main() {
   const root = createRoot();
   const btn = createGearButton();
   const menu = createMenuContainer();
+  const settingsBtn = settingsButton();
+  const settingsMenuContainer = settingsMenu();
 
   addSectionTitle(menu, `Current endpoint`);
   const currentValue = await getCurrentEndpoint(cfg.key);
@@ -106,6 +110,7 @@ async function main() {
   menu.appendChild(currentDisplay);
 
   addSectionTitle(menu, `Set ${cfg.key}`);
+  // menu.appendChild(settingsBtn);
   menu.appendChild(createEndpointsList(cfg));
   addDivider(menu);
   menu.appendChild(createCustomEndpointSection(cfg));
@@ -113,9 +118,12 @@ async function main() {
   menu.appendChild(createCopyTokenButton(cfg));
 
   wireOpenClose(root, btn, menu);
+  wireOpenClose(root, settingsBtn, settingsMenuContainer);
 
   root.appendChild(btn);
   root.appendChild(menu);
+  root.appendChild(settingsMenuContainer)
+
   document.documentElement.appendChild(root);
 }
 
