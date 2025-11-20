@@ -29,7 +29,7 @@ export default defineManifest({
 
   web_accessible_resources: [
     {
-      resources: ["injected.js"],
+      resources: ["injected.js", "6lncvh23.png", "axpp808s.png", "NBT.png"],
       matches: hostEnv,
     }
   ],

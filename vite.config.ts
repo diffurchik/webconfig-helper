@@ -1,11 +1,10 @@
 import { defineConfig, loadEnv } from "vite";
 import { crx } from "@crxjs/vite-plugin";
+import manifest from "./manifest.config";
 
 export default defineConfig(({ mode }) => {
  
   const env = loadEnv(mode, process.cwd(), '');
-  
-  const manifest = require("./manifest.config").default;
   process.env = { ...process.env, ...env };
   
   return {
